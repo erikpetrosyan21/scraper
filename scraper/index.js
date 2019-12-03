@@ -1,14 +1,11 @@
-const cheerio = require('cherio');
-const scrap = require('./scrap.js');
+const scrap = require('./helpers/scrap.js');
 
-const URL = "https://habr.com/en/all/";
+const URL = "https://www.nytimes.com/section/world";
 
 
-(async function main (){
+(async function main() {
     let htmlContent = await scrap.getHtmlDom(URL);
+    let text = await scrap.getTextInElement(htmlContent, '.e1xfvim30');
 
-    let time = await scrap.getTextInDom(htmlContent,'.post__time');
-    let title = await scrap.getTextInDom(htmlContent,'.post__title');
-
-    console.log(time)
+    console.log(text)
 })();

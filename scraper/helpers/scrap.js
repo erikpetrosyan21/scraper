@@ -13,16 +13,20 @@ const getHtmlDom = async (url) => {
 };
 
 //-- Get element text in htmlDom --
-const getTextInDom = async (content, classOrId) => {
+const getTextInElement = async (content, classOrId) => {
     try {
         let $ = await cheerio.load(content);
-        let elementText = await $(classOrId).text();
-        return elementText;
-    } catch (error) {
+        let result = [];
+            await $(classOrId).each((i, el) => {
+                result.push( $(el).text() );
+            });
+        return result;
+    }
+    catch (error) {
         return error;
     }
 };
 
 exports.getHtmlDom = getHtmlDom;
-exports.getTextInDom = getTextInDom;
+exports.getTextInElement = getTextInElement;
 // console.log(getData('https://habr.com/en/all/'))
