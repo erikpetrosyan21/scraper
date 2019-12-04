@@ -1,11 +1,22 @@
 const scrap = require('./helpers/scrap.js');
-
-const URL = "https://www.nytimes.com/section/world";
-
+const URL = "https://www.nytimes.com/section/sports";
+const DATA = [];
 
 (async function main() {
     let htmlContent = await scrap.getHtmlDom(URL);
-    let text = await scrap.getTextInElement(htmlContent, '.e1xfvim30');
 
-    console.log(text)
+    //-- To collect --
+    let title = await scrap.getTextInElement(htmlContent, '.e1xfvim30');
+    let content = await scrap.getTextInElement(htmlContent, '.e1xfvim31');
+
+    await DATA.push(
+        { content: content },
+        { title: title },
+    );
+
+    //-- Convert to JSON --
+    scrap.arrayToJson(DATA)
+
 })();
+
+
