@@ -2,10 +2,13 @@ const fs = require('fs');
 const moment = require('moment');
 const axios = require("axios");
 const cheerio = require('cherio');
+const { promisify } = require('util');
 
-let filename = moment().format('l LT').split('/').join('-').split(' ').join('-');
 
-//-- Get htmlDom in url. --
+const appendFile = promisify(fs.appendFile);
+const filename = moment().format('l LT').split('/').join('-').split(' ').join('-');
+
+// -- Get htmlDom in url. --
 const getHtmlDom = async (url) => {
     try {
         const response = await axios.get(url);
@@ -16,7 +19,7 @@ const getHtmlDom = async (url) => {
     }
 };
 
-//-- Get element text in htmlDom. --
+// -- Get element text in htmlDom. --
 const getTextInElement = async (content, classOrId) => {
     try {
         let $ = await cheerio.load(content);
@@ -31,11 +34,11 @@ const getTextInElement = async (content, classOrId) => {
     }
 };
 
-//-- Convert array to JSON file. -- 
+// -- Convert array to JSON file. -- 
 const arrayToJson = async (array, name = filename) => {
     try {
         let data = await JSON.stringify(array, null, 2);
-        fs.appendFile(`../data/${name}.json`, data);
+        appendFile(`../data/${name}.json`, data);
     }
     catch (error) {
         return error;
@@ -46,4 +49,3 @@ const arrayToJson = async (array, name = filename) => {
 exports.getHtmlDom = getHtmlDom;
 exports.getTextInElement = getTextInElement;
 exports.arrayToJson = arrayToJson;
-// console.log(getData('https://habr.com/en/all/'))
