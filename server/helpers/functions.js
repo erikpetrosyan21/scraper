@@ -1,7 +1,9 @@
 const fs = require('fs');
 const app = require('express')();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http,{
+    pingTimeout: 60000,
+});
 
 // -- Read file and converting to array. --
 
@@ -14,15 +16,11 @@ const readFileAndConvertArray = async (fileName) => {
     }
 }
 
-// -- Create server and socket connection. --
+// -- Create server and listen port. --
 
-const createServerAndConnectSocket = async (port) => {
+const createServer = async (port) => {
     try {
-        io.on('connection', (socket) => {
-            console.log('a user connected');
-        });
-
-        http.listen(port, function(){
+        http.listen(port, function () {
             console.log(`listening on *:${port}`);
         });
     } catch (err) {
@@ -30,5 +28,19 @@ const createServerAndConnectSocket = async (port) => {
     }
 }
 
+// -- Connect web socket and send data (socket.io emit). --
+
+const connectAndSendDataInClient = async (emitName,dataArray) => {
+    try {
+        io.on('connection', (socket) => {
+            console.log(`User coonetion in server user id :${socket.id}`);
+            socket.emit(emitName, dataArray);
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 exports.readFileAndConvertArray = readFileAndConvertArray;
-exports.createServerAndConnectSocket = createServerAndConnectSocket;
+exports.createServer = createServer;
+exports.connectAndSendDataInClient = connectAndSendDataInClient;

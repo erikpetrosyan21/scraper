@@ -1,23 +1,25 @@
 const scrap = require('./helpers/scrap.js');
-const URL = "https://www.nytimes.com/section/arts";
+const URL = "https://habr.com/en/flows/design/";
 const DATA = [];
 
 (async function main() {
-    let htmlContent = await scrap.getHtmlDom(URL);
+    const htmlContent = await scrap.getHtmlDom(URL);
 
     //-- To collect --
-    let title = await scrap.getTextInElement(htmlContent, '.e1xfvim30');
-    let content = await scrap.getTextInElement(htmlContent, '.e1xfvim31');
-    // let time = await scrap.getTextInElement(htmlContent, '.post__time');
+    let title = await scrap.getTextInElement(htmlContent, '.post__title');
+    let content = await scrap.getTextInElement(htmlContent, '.post__text');
+    let time = await scrap.getTextInElement(htmlContent, '.post__time');
+    let imgUrl = await scrap.getImgUrlInElement(htmlContent,'.post__text img');
 
     DATA.push(
         { content: content },
         { title: title },
-        // { time: time },
+        { time: time },
+        { imgUrl: imgUrl },
     );
 
     //-- Convert to JSON --
-    scrap.arrayToJson(DATA)
+    scrap.arrayToJson(DATA,'nor_data');
 
 })();
 

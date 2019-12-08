@@ -1,9 +1,17 @@
 <template>
   <div id="app">
-    <div class="">
-      <h1>as</h1>
-      <p>lorem lorem</p>
-    </div>
-    <router-view/>
+    <!-- <Home/> -->
+    <router-view />
   </div>
 </template>
+
+<script>
+import Home from "./views/Home.vue";
+
+export default {
+  name: "home",
+  components: {
+    Home
+  }
+};
+</script>
