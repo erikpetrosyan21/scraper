@@ -6,7 +6,6 @@ const io = require('socket.io')(http,{
 });
 
 // -- Read file and converting to array. --
-
 const readFileAndConvertArray = async (fileName) => {
     try {
         const readingFile = await fs.readFileSync(`../data/${fileName}`);
@@ -17,7 +16,6 @@ const readFileAndConvertArray = async (fileName) => {
 }
 
 // -- Create server and listen port. --
-
 const createServer = async (port) => {
     try {
         http.listen(port, function () {
@@ -29,7 +27,6 @@ const createServer = async (port) => {
 }
 
 // -- Connect web socket and send data (socket.io emit). --
-
 const connectAndSendDataInClient = async (emitName,dataArray) => {
     try {
         io.on('connection', (socket) => {

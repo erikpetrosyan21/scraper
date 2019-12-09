@@ -42,8 +42,7 @@ export default {
     this.socket.on("ScrapData", data => {
       this.contents = data[0].content;
       this.titles = data[1].title;
-      this.times = data[2].time;
-      this.imgs = data[3].imgUrl;
+      this.imgs = data[2].imgUrl;
     });
   }
 };
